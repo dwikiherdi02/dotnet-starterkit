@@ -1,0 +1,43 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Apps.Interfaces.Repositories;
+using Apps.Models;
+
+namespace Apps.Repositories
+{
+    public class TodoRepository : IBaseRepository
+    {
+        public async Task<IEnumerable<Todo>> FindAll()
+        {
+            return null;   
+        }
+        
+        public async Task<Todo> Find()
+        {
+            return null;   
+        }
+        
+        public async Task<Todo> FindById(string id)
+        {
+            return null;   
+        }
+        
+        public async Task<bool> Store()
+        {
+            return true;   
+        }
+        
+        public async Task<bool> Update()
+        {
+            return true;   
+        }
+        
+        public async Task<bool> Delete()
+        {
+            return true;   
+        }
+        
+    }
+}
