@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Apps.Data;
 using Apps.Entities;
 using Apps.Interfaces.Repositories;
@@ -46,7 +45,8 @@ namespace Apps.Repositories
         
         public async Task<Todo?> FindById(Guid id)
         {
-            return await _todoCtx.Todos.SingleAsync(q => q.Id == id);   
+            // return await _todoCtx.Todos.SingleAsync(q => q.Id == id);   
+            return await _todoCtx.Todos.FindAsync(id);   
         }
         
         public async Task<Todo?> Store(Todo item)

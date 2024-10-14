@@ -1,10 +1,7 @@
 using System.Net;
-using System.Text.Json;
 using Apps.Entities;
 using Apps.Interfaces.Services;
-using Apps.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 
 namespace Apps.Controllers
 {
@@ -52,6 +49,11 @@ namespace Apps.Controllers
         public async Task<ActionResult> GetItemById(Guid id)
         {
             var item = await _service.FindById(id);
+
+            if (item == null)
+            {
+                return NotFound();
+            }
             
             return Ok(new {
                 code = HttpStatusCode.OK,
