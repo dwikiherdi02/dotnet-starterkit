@@ -1,10 +1,12 @@
+using Apps.Entities;
 using Apps.Models;
 
 namespace Apps.Interfaces.Repositories
 {
-    public interface IBaseRepository
+    public interface ITodoRepository
     {
-        Task<IEnumerable<Todo>> FindAll<TEntity>(TEntity queryParams);
+        // Task<IEnumerable<Todo>> FindAll(TodoEntityQuery queryParams);
+        Task<(IEnumerable<Todo> list, int count)> FindAll(TodoEntityQuery queryParams);
         // Task<Todo> Find();
         // Task<Todo> FindById(string id);
         // Task<bool> Store();

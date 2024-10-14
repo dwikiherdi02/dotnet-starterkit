@@ -1,4 +1,8 @@
 using Apps.Data;
+using Apps.Interfaces.Repositories;
+using Apps.Interfaces.Services;
+using Apps.Repositories;
+using Apps.Services;
 using Apps.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +17,12 @@ builder.Services.Configure<Database>(builder.Configuration.GetSection("Database"
 
 // DI DbContext
 builder.Services.AddDbContext<TodoContext>();
+
+// DI Repositories
+builder.Services.AddScoped<ITodoRepository, TodoRepository>();
+
+// DI Services
+builder.Services.AddScoped<ITodoService, TodoService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

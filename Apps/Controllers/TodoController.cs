@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text.Json;
 using Apps.Entities;
+using Apps.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Apps.Controllers
@@ -9,16 +10,21 @@ namespace Apps.Controllers
     [Route("api/todos")]
     public class TodoController : ControllerBase
     {
-        public TodoController() {}
+        private readonly ITodoService _service;
+
+        public TodoController(ITodoService service) {
+            _service = service;
+        }
 
         [HttpGet]
-        public ActionResult GetList([FromQuery] TodoEntityQuery queryParams)
+        public async Task<ActionResult> GetList([FromQuery] TodoEntityQuery queryParams)
         {
-            Console.WriteLine(JsonSerializer.Serialize(queryParams));
+            var list = await _service.FindAll(queryParams);
             
             return Ok(new {
-                Code = HttpStatusCode.OK,
-                Message = HttpStatusCode.OK.ToString(),
+                code = HttpStatusCode.OK,
+                message = HttpStatusCode.OK.ToString(),
+                results = list
             });
         }
     }

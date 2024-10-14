@@ -258,3 +258,5 @@ C:\dotnet\_test\StarterKit\Apps\obj\Debug\net8.0\Apps.genruntimeconfig.cache
 C:\dotnet\_test\StarterKit\Apps\obj\Debug\net8.0\ref\Apps.dll
 C:\dotnet\_test\StarterKit\Apps\bin\Debug\net8.0\MySqlConnector.dll
 C:\dotnet\_test\StarterKit\Apps\bin\Debug\net8.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\dotnet\_test\StarterKit\Apps\obj\Debug\net8.0\Apps.sourcelink.json
+C:\dotnet\_test\StarterKit\Apps\bin\Debug\net8.0\AutoMapper.dll
