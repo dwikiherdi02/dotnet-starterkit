@@ -13,5 +13,6 @@ namespace Apps.Interfaces.Services
         Task<TodoEntityResponse?> FindById(Guid id);
         Task<TodoEntityResponse?> Store(TodoEntityBody body);
         Task<bool?> Update(Guid id, TodoEntityBody body);
+        Task<bool?> Destroy(Guid id);
     }
 }

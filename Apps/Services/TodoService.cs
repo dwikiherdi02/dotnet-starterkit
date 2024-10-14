@@ -61,17 +61,29 @@ namespace Apps.Services
 
         public async Task<bool?> Update(Guid id, TodoEntityBody body)
         {
-            Todo? todo = await _todoRepo.FindById(id);
+            var todo = await _todoRepo.FindById(id);
 
             if (todo == null)
             {
-                return false;
+                return null;
             }
 
             todo.Name = body.Name;
             todo.IsComplete = body.IsComplete;
 
             return await _todoRepo.Update(todo);
+        }
+
+        public async Task<bool?> Destroy(Guid id)
+        {
+            var todo = await _todoRepo.FindById(id);
+
+            if (todo == null)
+            {
+                return null;
+            }
+
+            return await _todoRepo.Destroy(todo);
         }
     }
 }

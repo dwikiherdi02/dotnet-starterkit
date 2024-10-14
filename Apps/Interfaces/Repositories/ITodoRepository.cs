@@ -10,6 +10,6 @@ namespace Apps.Interfaces.Repositories
         Task<Todo?> FindById(Guid id);
         Task<Todo?> Store(Todo item);
         Task<bool> Update(Todo item);
-        // Task<bool> Delete();
+        Task<bool> Destroy(Todo item);
     }
 }

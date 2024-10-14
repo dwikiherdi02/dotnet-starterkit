@@ -91,5 +91,29 @@ namespace Apps.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteItem(Guid id)
+        {
+            var todo = await _service.Destroy(id);
+
+            if (todo == null)
+            {
+                return NotFound(new {
+                    code = HttpStatusCode.NotFound,
+                    message = HttpStatusCode.NotFound.ToString(),    
+                });
+            }
+
+            if (todo == false)
+            {
+                return BadRequest(new {
+                    code = HttpStatusCode.BadRequest,
+                    message = HttpStatusCode.BadRequest.ToString(),
+                });
+            }
+
+            return NoContent();
+        }
     }
 }

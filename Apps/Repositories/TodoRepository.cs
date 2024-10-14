@@ -80,6 +80,8 @@ namespace Apps.Repositories
             {
                 await transaction.CreateSavepointAsync("UpdateTodoItem");
 
+                item.UpdatedAt = DateTime.UtcNow;
+
                 _todoCtx.Entry(item).State = EntityState.Modified;
 
                 await _todoCtx.SaveChangesAsync();
@@ -95,10 +97,27 @@ namespace Apps.Repositories
             return true;
         }
         
-        // public async Task<bool> Delete()
-        // {
-        //     return true;   
-        // }
+        public async Task<bool> Destroy(Todo item)
+        {
+            using var transaction = _todoCtx.Database.BeginTransaction();
+
+            try
+            {
+                await transaction.CreateSavepointAsync("DestroyTodoItem");
+
+                _todoCtx.Todos.Remove(item);
+                await _todoCtx.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackToSavepointAsync("DestroyTodoItem");
+                return false;
+            }
+
+            return true;
+        }
         
     }
 }
