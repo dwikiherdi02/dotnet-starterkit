@@ -12,5 +12,6 @@ namespace Apps.Interfaces.Services
         Task<IEnumerable<TodoEntityResponse>> FindAll(TodoEntityQuery queryParams);
         Task<TodoEntityResponse?> FindById(Guid id);
         Task<TodoEntityResponse?> Store(TodoEntityBody body);
+        Task<bool?> Update(Guid id, TodoEntityBody body);
     }
 }

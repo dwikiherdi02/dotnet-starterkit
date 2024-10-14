@@ -31,11 +31,14 @@ namespace Apps.Controllers
         [HttpPost]
         public async Task<ActionResult> PostItem([FromBody] TodoEntityBody body)
         {
-            TodoEntityResponse? todo = await _service.Store(body);
+            var todo = await _service.Store(body);
             
             if (todo == null)
             {
-                return BadRequest();
+                return BadRequest(new {
+                    code = HttpStatusCode.BadRequest,
+                    message = HttpStatusCode.BadRequest.ToString(),
+                });
             }
             
             return Ok(new {
@@ -52,7 +55,10 @@ namespace Apps.Controllers
 
             if (item == null)
             {
-                return NotFound();
+                return NotFound(new {
+                    code = HttpStatusCode.NotFound,
+                    message = HttpStatusCode.NotFound.ToString(),    
+                });
             }
             
             return Ok(new {
@@ -60,6 +66,30 @@ namespace Apps.Controllers
                 message = HttpStatusCode.OK.ToString(),
                 results = item,
             });
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> PutItem(Guid id, [FromBody] TodoEntityBody body)
+        {
+            var todo = await _service.Update(id, body);
+
+            if (todo == null)
+            {
+                return NotFound(new {
+                    code = HttpStatusCode.NotFound,
+                    message = HttpStatusCode.NotFound.ToString(),    
+                });
+            }
+
+            if (todo == false)
+            {
+                return BadRequest(new {
+                    code = HttpStatusCode.BadRequest,
+                    message = HttpStatusCode.BadRequest.ToString(),
+                });
+            }
+
+            return NoContent();
         }
     }
 }

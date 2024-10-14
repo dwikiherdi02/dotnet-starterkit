@@ -72,10 +72,28 @@ namespace Apps.Repositories
             return item;   
         }
         
-        // public async Task<bool> Update()
-        // {
-        //     return true;   
-        // }
+        public async Task<bool> Update(Todo item)
+        {
+            using var transaction = _todoCtx.Database.BeginTransaction();
+
+            try
+            {
+                await transaction.CreateSavepointAsync("UpdateTodoItem");
+
+                _todoCtx.Entry(item).State = EntityState.Modified;
+
+                await _todoCtx.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackToSavepointAsync("UpdateTodoItem");
+
+                return false;
+            }
+            return true;
+        }
         
         // public async Task<bool> Delete()
         // {

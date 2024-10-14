@@ -58,5 +58,20 @@ namespace Apps.Services
             TodoEntityResponse res = _Mapper.MapTo<Todo, TodoEntityResponse>(todo); 
             return res;
         }
+
+        public async Task<bool?> Update(Guid id, TodoEntityBody body)
+        {
+            Todo? todo = await _todoRepo.FindById(id);
+
+            if (todo == null)
+            {
+                return false;
+            }
+
+            todo.Name = body.Name;
+            todo.IsComplete = body.IsComplete;
+
+            return await _todoRepo.Update(todo);
+        }
     }
 }
