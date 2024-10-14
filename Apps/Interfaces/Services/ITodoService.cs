@@ -10,5 +10,7 @@ namespace Apps.Interfaces.Services
     public interface ITodoService
     {
         Task<IEnumerable<TodoEntityResponse>> FindAll(TodoEntityQuery queryParams);
+        Task<TodoEntityResponse?> FindById(Guid id);
+        Task<TodoEntityResponse?> Store(TodoEntityBody body);
     }
 }

@@ -20,6 +20,15 @@ namespace Apps.Entities
         public int PageSize { get; set; }
     }
 
+    public class TodoEntityBody
+    {
+        [JsonPropertyName("name")]
+        public string? Name { get; set; }
+
+        [JsonPropertyName("is_complete")]
+        public bool IsComplete { get; set; }
+    }
+
     public class TodoEntityResponse
     {
         [JsonPropertyName("id")]

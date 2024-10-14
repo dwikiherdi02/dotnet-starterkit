@@ -26,8 +26,8 @@ namespace Apps.Utilities
         }
 
         public static TDestination MapTo<TSource, TDestination>(TSource source) 
-        // where TSource : class
-        // where TDestination : class
+        where TSource : class
+        where TDestination : class
         {
             var configuration = new MapperConfiguration(cfg => {
                 cfg.CreateMap<TSource, TDestination>();

@@ -7,9 +7,8 @@ namespace Apps.Interfaces.Repositories
     {
         // Task<IEnumerable<Todo>> FindAll(TodoEntityQuery queryParams);
         Task<(IEnumerable<Todo> list, int count)> FindAll(TodoEntityQuery queryParams);
-        // Task<Todo> Find();
-        // Task<Todo> FindById(string id);
-        // Task<bool> Store();
+        Task<Todo?> FindById(Guid id);
+        Task<Todo?> Store(Todo todo);
         // Task<bool> Update();
         // Task<bool> Delete();
     }

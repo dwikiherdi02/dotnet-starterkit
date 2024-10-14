@@ -30,5 +30,34 @@ namespace Apps.Services
 
             return list;
         }
+
+        public async Task<TodoEntityResponse?> FindById(Guid id)
+        {
+            Todo? todo = await _todoRepo.FindById(id);
+
+            if (todo == null)
+            {
+                return null;
+            }
+
+            TodoEntityResponse res = _Mapper.MapTo<Todo, TodoEntityResponse>(todo);
+
+            return res;
+        }
+
+        public async Task<TodoEntityResponse?> Store(TodoEntityBody body)
+        {
+            Todo item = _Mapper.MapTo<TodoEntityBody, Todo>(body);
+
+            Todo? todo = await _todoRepo.Store(item);
+
+            if (todo == null)
+            {
+                return null;
+            }
+
+            TodoEntityResponse res = _Mapper.MapTo<Todo, TodoEntityResponse>(todo); 
+            return res;
+        }
     }
 }

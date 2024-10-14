@@ -44,20 +44,33 @@ namespace Apps.Repositories
             return (list, count);
         }
         
-        // public async Task<Todo> Find()
-        // {
-        //     return null;   
-        // }
+        public async Task<Todo?> FindById(Guid id)
+        {
+            return await _todoCtx.Todos.SingleAsync(q => q.Id == id);   
+        }
         
-        // public async Task<Todo> FindById(string id)
-        // {
-        //     return null;   
-        // }
-        
-        // public async Task<bool> Store()
-        // {
-        //     return true;   
-        // }
+        public async Task<Todo?> Store(Todo item)
+        {
+            using var transaction = _todoCtx.Database.BeginTransaction();
+
+            try
+            {
+                await transaction.CreateSavepointAsync("StoreTodoItem");
+
+                _todoCtx.Todos.Add(item);
+                await _todoCtx.SaveChangesAsync();
+                
+                await transaction.CommitAsync();
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackToSavepointAsync("StoreTodoItem");
+
+                return null;
+            }
+
+            return item;   
+        }
         
         // public async Task<bool> Update()
         // {
