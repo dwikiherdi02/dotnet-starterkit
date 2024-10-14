@@ -26,7 +26,7 @@ namespace Apps.Repositories
             }
 
             // * Generate count before limiting
-            var count = query.Count();
+            var count = await query.CountAsync();
 
             if (queryParams.PageSize > 0)
             {
@@ -39,7 +39,7 @@ namespace Apps.Repositories
             }
 
             // * Generate list of todo
-            var list = query.ToList();
+            var list = await query.ToListAsync();
 
             return (list, count);
         }
