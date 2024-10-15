@@ -1,4 +1,4 @@
-using Apps.Models;
+using Apps.Data.Models;
 
 namespace Apps.Utilities.Interfaces.Repositories
 {

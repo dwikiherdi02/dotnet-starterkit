@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Apps.Utilities.Interfaces.Models;
 
-namespace Apps.Models
+namespace Apps.Data.Models
 {
     [Table("todos")]
     public class Todo : ISoftDelete

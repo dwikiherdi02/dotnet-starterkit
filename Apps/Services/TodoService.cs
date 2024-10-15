@@ -1,5 +1,5 @@
-using Apps.Entities;
-using Apps.Models;
+using Apps.Data.Entities;
+using Apps.Data.Models;
 using Apps.Utilities.Helpers;
 using Apps.Utilities.Interfaces.Repositories;
 using Apps.Utilities.Interfaces.Services;

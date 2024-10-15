@@ -1,6 +1,6 @@
-using Apps.Data;
-using Apps.Entities;
-using Apps.Models;
+using Apps.Data.Ctx;
+using Apps.Data.Entities;
+using Apps.Data.Models;
 using Apps.Utilities.ExtensionMethods;
 using Apps.Utilities.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -51,8 +51,9 @@ namespace Apps.Repositories
         
         public async Task<Todo?> FindById(Guid id)
         {
-            // return await _todoCtx.Todos.SingleAsync(q => q.Id == id);   
-            return await _todoCtx.Todos.FindAsync(id);   
+            // return await _todoCtx.Todos.SingleOrDefaultAsync(q => q.Id == id);   
+            // return await _todoCtx.Todos.FirstOrDefaultAsync(q => q.Id == id);
+            return await _todoCtx.Todos.FindAsync(id);
         }
         
         public async Task<Todo?> Store(Todo item)

@@ -1,5 +1,5 @@
 using System.Net;
-using Apps.Entities;
+using Apps.Data.Entities;
 using Apps.Utilities.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 

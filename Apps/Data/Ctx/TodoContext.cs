@@ -1,9 +1,9 @@
-using Apps.Models;
+using Apps.Data.Models;
 using Apps.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace Apps.Data
+namespace Apps.Data.Ctx
 {
     public class TodoContext : BaseContext
     {

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Apps.Migrations
 {
     /// <inheritdoc />
-    public partial class Createtabletodos : Migration
+    public partial class createtabletodos : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,15 +24,23 @@ namespace Apps.Migrations
                     name = table.Column<string>(type: "VARCHAR(100)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     is_complete = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    created_at = table.Column<DateTime>(type: "DATETIME", nullable: true)
+                    created_at = table.Column<DateTime>(type: "DATETIME(6)", nullable: true)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    updated_at = table.Column<DateTime>(type: "DATETIME", nullable: true)
+                    updated_at = table.Column<DateTime>(type: "DATETIME(6)", nullable: true),
+                    is_deleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    deleted_at = table.Column<DateTime>(type: "DATETIME(6)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_todos", x => x.id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_todos_is_deleted",
+                table: "todos",
+                column: "is_deleted",
+                filter: "is_deleted = 0");
         }
 
         /// <inheritdoc />

@@ -3,7 +3,7 @@ using Apps.Utilities.Interceptors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace Apps.Data
+namespace Apps.Data.Ctx
 {
     public class BaseContext : DbContext
     {

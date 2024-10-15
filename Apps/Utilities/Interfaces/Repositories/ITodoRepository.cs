@@ -1,5 +1,5 @@
-using Apps.Entities;
-using Apps.Models;
+using Apps.Data.Entities;
+using Apps.Data.Models;
 
 namespace Apps.Utilities.Interfaces.Repositories
 {

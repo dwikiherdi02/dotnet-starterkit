@@ -1,4 +1,4 @@
-using Apps.Entities;
+using Apps.Data.Entities;
 
 namespace Apps.Utilities.Interfaces.Services
 {
