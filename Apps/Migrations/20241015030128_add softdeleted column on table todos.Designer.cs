@@ -4,6 +4,7 @@ using Apps.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Apps.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    partial class TodoContextModelSnapshot : ModelSnapshot
+    [Migration("20241015030128_add softdeleted column on table todos")]
+    partial class addsoftdeletedcolumnontabletodos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,13 +34,13 @@ namespace Apps.Migrations
 
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("DATETIME(6)")
+                        .HasColumnType("DATETIME")
                         .HasColumnName("created_at");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTime?>("CreatedAt"));
 
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("DATETIME(6)")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("deleted_at");
 
                     b.Property<bool>("IsComplete")
@@ -54,7 +57,7 @@ namespace Apps.Migrations
                         .HasColumnName("name");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("DATETIME(6)")
+                        .HasColumnType("DATETIME")
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id");

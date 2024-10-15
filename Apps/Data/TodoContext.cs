@@ -7,7 +7,7 @@ namespace Apps.Data
 {
     public class TodoContext : BaseContext
     {
-        public TodoContext(IOptions<Database> database) : base(database) {}
+        public TodoContext(IOptions<Database> database) : base(database, true) {}
 
         public DbSet<Todo> Todos { get; set; }
 
@@ -25,6 +25,18 @@ namespace Apps.Data
                 entity
                     .Property(p => p.UpdatedAt)
                     .ValueGeneratedNever();
+
+                entity
+                    .Property(p => p.DeletedAt)
+                    .ValueGeneratedNever();
+
+                // Automatically Filtering Soft-Deleted Data
+                entity.HasQueryFilter(p => !p.IsDeleted);
+
+                // Faster Queries Using Filtered Index
+                entity
+                    .HasIndex(p => p.IsDeleted)
+                    .HasFilter("is_deleted = 0");
             });
         }
     }

@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Apps.Interceptors;
 using Apps.Settings;
-using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -14,8 +10,11 @@ namespace Apps.Data
 
         private readonly IOptions<Database> _database;
 
-        public BaseContext(IOptions<Database> database) {
+        private readonly bool? _withSoftDeleted = false;
+
+        public BaseContext(IOptions<Database> database, bool withSoftDeleted = false) {
             _database = database;
+            _withSoftDeleted = withSoftDeleted;
         }
 
         // public BaseDbContext(DbContextOptions<BaseDbContext> options) : base(options) { }
@@ -23,7 +22,15 @@ namespace Apps.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connectionString = _database.Value.MySql;
-            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            if (_withSoftDeleted== false)
+            {
+                optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            }
+            else {
+                optionsBuilder
+                    .UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+                    .AddInterceptors(new SoftDeleteInterceptor());
+            }
         }
     }
 }
