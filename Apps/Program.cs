@@ -1,9 +1,9 @@
 using Apps.Data;
-using Apps.Interfaces.Repositories;
-using Apps.Interfaces.Services;
 using Apps.Repositories;
 using Apps.Services;
 using Apps.Settings;
+using Apps.Utilities.Interfaces.Repositories;
+using Apps.Utilities.Interfaces.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

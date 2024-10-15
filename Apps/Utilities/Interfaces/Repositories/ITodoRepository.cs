@@ -1,7 +1,7 @@
 using Apps.Entities;
 using Apps.Models;
 
-namespace Apps.Interfaces.Repositories
+namespace Apps.Utilities.Interfaces.Repositories
 {
     public interface ITodoRepository
     {

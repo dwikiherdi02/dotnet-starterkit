@@ -1,5 +1,5 @@
-using Apps.Interceptors;
 using Apps.Settings;
+using Apps.Utilities.Interceptors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 

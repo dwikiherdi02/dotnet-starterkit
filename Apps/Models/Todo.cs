@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Apps.Interfaces.Models;
+using Apps.Utilities.Interfaces.Models;
 
 namespace Apps.Models
 {

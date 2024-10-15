@@ -1,4 +1,4 @@
-using Apps.Interfaces.Models;
+using Apps.Utilities.Interfaces.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 // - https://www.milanjovanovic.tech/blog/implementing-soft-delete-with-ef-core 
 // - https://blog.jetbrains.com/dotnet/2023/06/14/how-to-implement-a-soft-delete-strategy-with-entity-framework-core/
 
-namespace Apps.Interceptors
+namespace Apps.Utilities.Interceptors
 {
     public class SoftDeleteInterceptor : SaveChangesInterceptor
     {

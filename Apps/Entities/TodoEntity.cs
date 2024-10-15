@@ -15,9 +15,12 @@ namespace Apps.Entities
         // [RegularExpression(@"^\d{1,}$", ErrorMessage = "Page must be number and minimum length is 1")]
         public int Page { get; set; }
 
-        [FromQuery(Name ="page-size")]
+        [FromQuery(Name = "pagesize")]
         // [RegularExpression(@"^[0-9]*$", ErrorMessage = "Page size must be number")]
         public int PageSize { get; set; }
+
+        // [FromQuery(Name = "orders")]
+        // public string? Orders { get; set; }
     }
 
     public class TodoEntityBody

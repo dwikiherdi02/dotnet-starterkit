@@ -1,7 +1,8 @@
 using Apps.Data;
 using Apps.Entities;
-using Apps.Interfaces.Repositories;
 using Apps.Models;
+using Apps.Utilities.ExtensionMethods;
+using Apps.Utilities.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Apps.Repositories
@@ -36,6 +37,11 @@ namespace Apps.Repositories
 
                 query = query.Take(queryParams.PageSize);
             }
+
+            query = query.OrderByColumn("CreatedAt", "desc");
+
+            // Console.WriteLine(query.ToQueryString());
+            // Console.WriteLine("--------------------------------------------------");
 
             // * Generate list of todo
             var list = await query.ToListAsync();
