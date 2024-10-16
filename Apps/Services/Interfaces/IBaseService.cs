@@ -1,4 +1,4 @@
-namespace Apps.Utilities.Interfaces.Services
+namespace Apps.Services.Interfaces
 {
     public interface IBaseService<TEntityQuery, TEntityBody, TEntityResponse>
     {

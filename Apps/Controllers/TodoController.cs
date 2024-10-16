@@ -1,6 +1,6 @@
 using System.Net;
 using Apps.Data.Entities;
-using Apps.Utilities.Interfaces.Services;
+using Apps.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Apps.Controllers

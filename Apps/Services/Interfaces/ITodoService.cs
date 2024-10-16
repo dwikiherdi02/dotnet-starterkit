@@ -1,6 +1,6 @@
 using Apps.Data.Entities;
 
-namespace Apps.Utilities.Interfaces.Services
+namespace Apps.Services.Interfaces
 {
     public interface ITodoService
     {
