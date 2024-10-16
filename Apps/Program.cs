@@ -17,14 +17,19 @@ builder.Services.Configure<Database>(builder.Configuration.GetSection("Database"
 
 // DI DbContext
 builder.Services.AddDbContext<TodoContext>();
+builder.Services.AddDbContext<UserContext>();
 
 // DI Repositories
 builder.Services.AddScoped<ITodoRepository, TodoRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // DI Services
 builder.Services.AddScoped<ITodoService, TodoService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
+// DI Controllers
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

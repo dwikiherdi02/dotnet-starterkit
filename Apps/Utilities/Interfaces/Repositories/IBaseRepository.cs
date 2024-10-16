@@ -2,13 +2,12 @@ using Apps.Data.Models;
 
 namespace Apps.Utilities.Interfaces.Repositories
 {
-    public interface IBaseRepository
+    public interface IBaseRepository<TModel, TEntityQuery>
     {
-        Task<IEnumerable<Todo>> FindAll<TEntity>(TEntity queryParams);
-        // Task<Todo> Find();
-        // Task<Todo> FindById(string id);
-        // Task<bool> Store();
-        // Task<bool> Update();
-        // Task<bool> Delete();
+        Task<(IEnumerable<TModel> list, int count)> FindAll(TEntityQuery queryParams);
+        Task<TModel?> FindById(Guid id);
+        Task<TModel?> Store(TModel item);
+        Task<bool> Update(TModel item);
+        Task<bool> Destroy(TModel item);
     }
 }

@@ -76,7 +76,7 @@ namespace Apps.Repositories
                 return null;
             }
 
-            return item;   
+            return item;
         }
         
         public async Task<bool> Update(Todo item)

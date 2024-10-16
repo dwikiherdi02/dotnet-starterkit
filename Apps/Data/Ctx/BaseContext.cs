@@ -10,7 +10,7 @@ namespace Apps.Data.Ctx
 
         private readonly IOptions<Database> _database;
 
-        private readonly bool? _withSoftDeleted = false;
+        private readonly bool _withSoftDeleted = false;
 
         public BaseContext(IOptions<Database> database, bool withSoftDeleted = false) {
             _database = database;
@@ -22,7 +22,7 @@ namespace Apps.Data.Ctx
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connectionString = _database.Value.MySql;
-            if (_withSoftDeleted== false)
+            if (_withSoftDeleted == false)
             {
                 optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             }
