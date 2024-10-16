@@ -1,4 +1,4 @@
-namespace Apps.Utilities.Interfaces.Models
+namespace Apps.Data.Models.Interfaces
 {
     public interface ISoftDelete
     {

@@ -1,4 +1,4 @@
-using Apps.Utilities.Interfaces.Models;
+using Apps.Data.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
