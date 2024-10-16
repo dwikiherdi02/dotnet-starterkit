@@ -1,6 +1,4 @@
-using Apps.Data.Models;
-
-namespace Apps.Utilities.Interfaces.Repositories
+namespace Apps.Repositories.Interfaces
 {
     public interface IBaseRepository<TModel, TEntityQuery>
     {

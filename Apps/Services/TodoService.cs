@@ -1,7 +1,7 @@
 using Apps.Data.Entities;
 using Apps.Data.Models;
+using Apps.Repositories.Interfaces;
 using Apps.Utilities.Helpers;
-using Apps.Utilities.Interfaces.Repositories;
 using Apps.Utilities.Interfaces.Services;
 
 namespace Apps.Services

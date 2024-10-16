@@ -2,7 +2,7 @@ using Apps.Data.Ctx;
 using Apps.Data.Entities;
 using Apps.Data.Models;
 using Apps.Repositories.ExtensionMethods;
-using Apps.Utilities.Interfaces.Repositories;
+using Apps.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Apps.Repositories

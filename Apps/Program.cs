@@ -1,8 +1,8 @@
 using Apps.Data.Ctx;
 using Apps.Repositories;
+using Apps.Repositories.Interfaces;
 using Apps.Services;
 using Apps.Settings;
-using Apps.Utilities.Interfaces.Repositories;
 using Apps.Utilities.Interfaces.Services;
 
 var builder = WebApplication.CreateBuilder(args);
