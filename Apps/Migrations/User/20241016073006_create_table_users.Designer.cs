@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Apps.Migrations
+namespace Apps.Migrations.User
 {
-    [DbContext(typeof(TodoContext))]
-    [Migration("20241015061150_create table todos")]
-    partial class createtabletodos
+    [DbContext(typeof(UserContext))]
+    [Migration("20241016073006_create_table_users")]
+    partial class create_table_users
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace Apps.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("Apps.Data.Models.Todo", b =>
+            modelBuilder.Entity("Apps.Data.Models.User", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
@@ -43,9 +43,10 @@ namespace Apps.Migrations
                         .HasColumnType("DATETIME(6)")
                         .HasColumnName("deleted_at");
 
-                    b.Property<bool>("IsComplete")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_complete");
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(100)")
+                        .HasColumnName("email");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)")
@@ -56,16 +57,26 @@ namespace Apps.Migrations
                         .HasColumnType("VARCHAR(100)")
                         .HasColumnName("name");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(60)")
+                        .HasColumnName("password");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("DATETIME(6)")
                         .HasColumnName("updated_at");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(100)")
+                        .HasColumnName("username");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted")
                         .HasFilter("is_deleted = 0");
 
-                    b.ToTable("todos");
+                    b.ToTable("users");
                 });
 #pragma warning restore 612, 618
         }

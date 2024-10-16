@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Apps.Migrations
 {
     /// <inheritdoc />
-    public partial class createtabletodos : Migration
+    public partial class create_table_todos : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,8 +27,8 @@ namespace Apps.Migrations
                     created_at = table.Column<DateTime>(type: "DATETIME(6)", nullable: true)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     updated_at = table.Column<DateTime>(type: "DATETIME(6)", nullable: true),
-                    is_deleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    deleted_at = table.Column<DateTime>(type: "DATETIME(6)", nullable: true)
+                    deleted_at = table.Column<DateTime>(type: "DATETIME(6)", nullable: true),
+                    is_deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {

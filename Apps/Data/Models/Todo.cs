@@ -23,11 +23,11 @@ namespace Apps.Data.Models
 
         [Column("updated_at", TypeName = "DATETIME(6)")]
         public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
-
-        [Column("is_deleted")]
-        public bool IsDeleted { get; set; } = false;
         
         [Column("deleted_at", TypeName = "DATETIME(6)")]
         public DateTime? DeletedAt { get; set; }
+
+        [Column("is_deleted")]
+        public bool IsDeleted { get; set; } = false;
     }
 }
