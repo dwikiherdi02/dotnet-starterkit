@@ -12,8 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 // DI Settings
 // Learn more about getting value from appsettings.json in .NET Core at https://www.telerik.com/blogs/how-to-get-values-from-appsettings-json-in-net-core
 // builder.Services.Configure<App>(builder.Configuration.GetSection(""));
-builder.Services.Configure<Logging>(builder.Configuration.GetSection("Logging"));
-builder.Services.Configure<Database>(builder.Configuration.GetSection("Database"));
+builder.Services.Configure<App>(builder.Configuration.GetSection("App"));
+builder.Services.Configure<Database>(builder.Configuration.GetSection("App:Database"));
 
 // DI DbContext
 builder.Services.AddDbContext<TodoContext>();
