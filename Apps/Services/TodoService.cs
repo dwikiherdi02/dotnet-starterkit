@@ -2,7 +2,7 @@ using Apps.Data.Entities;
 using Apps.Data.Models;
 using Apps.Repositories.Interfaces;
 using Apps.Services.Interfaces;
-using Apps.Utilities.Helpers;
+using Apps.Utilities;
 
 namespace Apps.Services
 {
