@@ -3,7 +3,7 @@ using Apps.Data.Models;
 using Apps.Data.Entities;
 using Apps.Utilities.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Apps.Utilities.ExtensionMethods;
+using Apps.Repositories.ExtensionMethods;
 
 namespace Apps.Repositories
 {
