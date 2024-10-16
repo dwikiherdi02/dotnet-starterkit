@@ -1,5 +1,5 @@
 using Apps.Data.Models;
-using Apps.Settings;
+using Apps.Config;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -7,7 +7,7 @@ namespace Apps.Data.Ctx
 {
     public class TodoContext : BaseContext
     {
-        public TodoContext(IOptions<Database> database) : base(database, true) {}
+        public TodoContext(IOptions<DatabaseCfg> database) : base(database, true) {}
 
         public DbSet<Todo> Todos { get; set; }
 

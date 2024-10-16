@@ -3,17 +3,17 @@ using Apps.Repositories;
 using Apps.Repositories.Interfaces;
 using Apps.Services;
 using Apps.Services.Interfaces;
-using Apps.Settings;
+using Apps.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-// DI Settings
+// DI Config
 // Learn more about getting value from appsettings.json in .NET Core at https://www.telerik.com/blogs/how-to-get-values-from-appsettings-json-in-net-core
-// builder.Services.Configure<App>(builder.Configuration.GetSection(""));
-builder.Services.Configure<App>(builder.Configuration.GetSection("App"));
-builder.Services.Configure<Database>(builder.Configuration.GetSection("App:Database"));
+builder.Services.Configure<AppCfg>(builder.Configuration.GetSection("App"));
+builder.Services.Configure<DatabaseCfg>(builder.Configuration.GetSection("App:Database"));
+builder.Services.Configure<MailerCfg>(builder.Configuration.GetSection("App:Mailer"));
 
 // DI DbContext
 builder.Services.AddDbContext<TodoContext>();

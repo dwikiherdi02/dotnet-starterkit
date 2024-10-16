@@ -73,9 +73,9 @@ namespace Apps.Services
                 return null;
             }
 
-            user.Name = body.Name;
-            user.Username = body.Username;
-            user.Email = body.Email;
+            user.Name = body.Name ?? user.Name;
+            user.Username = body.Username ?? user.Username;
+            user.Email = body.Email ?? user.Email;
 
             return await _userRepo.Update(user);
         }

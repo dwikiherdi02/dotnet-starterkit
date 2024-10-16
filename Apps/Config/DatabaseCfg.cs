@@ -1,6 +1,6 @@
-namespace Apps.Settings
+namespace Apps.Config
 {
-    public class Database
+    public class DatabaseCfg
     {
         public string? MySql { get; set; }
     }

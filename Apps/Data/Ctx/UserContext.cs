@@ -1,5 +1,5 @@
 using Apps.Data.Models;
-using Apps.Settings;
+using Apps.Config;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -7,7 +7,7 @@ namespace Apps.Data.Ctx
 {
     public class UserContext : BaseContext
     {
-        public UserContext(IOptions<Database> database) : base(database, true) { }
+        public UserContext(IOptions<DatabaseCfg> database) : base(database, true) { }
 
         public DbSet<User> Users { get; set; }
 

@@ -13,7 +13,7 @@ namespace Apps.Data.Models
 
         [Column("name", TypeName = "VARCHAR(100)")]
         [Required]
-        public string? Name { get; set; }
+        public required string Name { get; set; }
 
         [Column("is_complete")]
         public bool IsComplete { get; set; } = false;

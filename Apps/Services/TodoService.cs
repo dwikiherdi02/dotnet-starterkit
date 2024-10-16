@@ -68,7 +68,7 @@ namespace Apps.Services
                 return null;
             }
 
-            todo.Name = body.Name;
+            todo.Name = body.Name ?? todo.Name;
             todo.IsComplete = body.IsComplete;
 
             return await _todoRepo.Update(todo);

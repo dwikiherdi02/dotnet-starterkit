@@ -12,19 +12,19 @@ namespace Apps.Data.Models
 
         [Column("name", TypeName = "VARCHAR(100)")]
         [Required]
-        public string? Name { get; set; }
+        public required string Name { get; set; }
         
         [Column("username", TypeName = "VARCHAR(100)")]
         [Required]
-        public string? Username { get; set; }
+        public required string Username { get; set; }
         
         [Column("email", TypeName = "VARCHAR(100)")]
         [Required]
-        public string? Email { get; set; }
+        public required string Email { get; set; }
         
         [Column("password", TypeName = "VARCHAR(60)")]
         [Required]
-        public string? Password { get; set; }
+        public required string Password { get; set; }
 
         [Column("created_at", TypeName = "DATETIME(6)")]
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
