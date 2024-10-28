@@ -1,8 +1,8 @@
 using System.Linq.Expressions;
 
-namespace Apps.Repositories.ExtensionMethods
+namespace Apps.Repositories.Extensions
 {
-    public static class QueryableExtensions
+    public static class QueryableExtension
     {
         public static IOrderedQueryable<T> OrderByColumn<T>(this IQueryable<T> source, string columnPath, string direction = "asc")
         {
