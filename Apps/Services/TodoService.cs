@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Apps.Data.Entities;
 using Apps.Data.Models;
 using Apps.Repositories.Interfaces;
@@ -23,7 +24,7 @@ namespace Apps.Services
 
             foreach (var todo in lTodo)
             {
-                TodoEntityResponse teResponse = _Mapper.MapTo<Todo, TodoEntityResponse>(todo);    
+                TodoEntityResponse teResponse = _Mapper.Map<Todo, TodoEntityResponse>(todo);    
                 list.Add(teResponse);
             }
 
@@ -39,14 +40,14 @@ namespace Apps.Services
                 return null;
             }
 
-            TodoEntityResponse res = _Mapper.MapTo<Todo, TodoEntityResponse>(todo);
+            TodoEntityResponse res = _Mapper.Map<Todo, TodoEntityResponse>(todo);
 
             return res;
         }
 
         public async Task<TodoEntityResponse?> Store(TodoEntityBody body)
         {
-            Todo item = _Mapper.MapTo<TodoEntityBody, Todo>(body);
+            Todo item = _Mapper.Map<TodoEntityBody, Todo>(body);
 
             Todo? todo = await _todoRepo.Store(item);
 
@@ -55,7 +56,7 @@ namespace Apps.Services
                 return null;
             }
 
-            TodoEntityResponse res = _Mapper.MapTo<Todo, TodoEntityResponse>(todo); 
+            TodoEntityResponse res = _Mapper.Map<Todo, TodoEntityResponse>(todo); 
             return res;
         }
 
@@ -68,8 +69,10 @@ namespace Apps.Services
                 return null;
             }
 
-            todo.Name = body.Name ?? todo.Name;
-            todo.IsComplete = body.IsComplete;
+            _Mapper.MapTo<TodoEntityBody, Todo>(body, ref todo);
+
+            // todo.Name = body.Name ?? todo.Name;
+            // todo.IsComplete = body.IsComplete;
 
             return await _todoRepo.Update(todo);
         }

@@ -23,7 +23,7 @@ namespace Apps.Services
 
             foreach (var todo in lUser)
             {
-                UserEntityResponse teResponse = _Mapper.MapTo<User, UserEntityResponse>(todo);    
+                UserEntityResponse teResponse = _Mapper.Map<User, UserEntityResponse>(todo);    
                 list.Add(teResponse);
             }
 
@@ -39,14 +39,14 @@ namespace Apps.Services
                 return null;
             }
 
-            UserEntityResponse res = _Mapper.MapTo<User, UserEntityResponse>(user);
+            UserEntityResponse res = _Mapper.Map<User, UserEntityResponse>(user);
 
             return res;
         }
 
         public async Task<UserEntityResponse?> Store(UserEntityBody body)
         {
-            User item = _Mapper.MapTo<UserEntityBody, User>(body);
+            User item = _Mapper.Map<UserEntityBody, User>(body);
             
             if (item.Password != null)
             {
@@ -60,7 +60,7 @@ namespace Apps.Services
                 return null;
             }
 
-            UserEntityResponse res = _Mapper.MapTo<User, UserEntityResponse>(user); 
+            UserEntityResponse res = _Mapper.Map<User, UserEntityResponse>(user); 
             return res;
         }
 
@@ -73,9 +73,11 @@ namespace Apps.Services
                 return null;
             }
 
-            user.Name = body.Name ?? user.Name;
-            user.Username = body.Username ?? user.Username;
-            user.Email = body.Email ?? user.Email;
+            _Mapper.MapTo<UserEntityBodyUpdate, User>(body, ref user);
+
+            // user.Name = body.Name ?? user.Name;
+            // user.Username = body.Username ?? user.Username;
+            // user.Email = body.Email ?? user.Email;
 
             return await _userRepo.Update(user);
         }
