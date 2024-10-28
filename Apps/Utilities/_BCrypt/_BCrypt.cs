@@ -1,4 +1,4 @@
-namespace Apps.Utilities
+namespace Apps.Utilities._BCrypt
 {
     // Learn more about How to Secure Passwords with BCrypt.NET at https://code-maze.com/dotnet-secure-passwords-bcrypt/
     public sealed class _BCrypt

@@ -1,8 +1,6 @@
-using System.Text.Json;
-using Apps.Utilities.Components._Mapper.Extensions;
 using AutoMapper;
 
-namespace Apps.Utilities
+namespace Apps.Utilities._Mapper
 {
     public sealed class _Mapper
     {
