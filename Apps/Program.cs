@@ -4,6 +4,7 @@ using Apps.Repositories.Interfaces;
 using Apps.Services;
 using Apps.Services.Interfaces;
 using Apps.Config;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,8 +40,29 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    // app.UseSwagger();
+    // app.UseSwaggerUI();
+
+    app.UseSwagger(options =>
+    {
+        options.RouteTemplate = "openapi/{documentName}.json";
+    });
+    app.MapScalarApiReference(options =>
+    {
+        options.Title = "StarterKit API";
+        options.Theme = ScalarTheme.Moon;
+        options.ShowSidebar = true;
+        options.DefaultHttpClient = new(ScalarTarget.CSharp, ScalarClient.HttpClient);
+        options.EndpointPathPrefix = "/apidocs/{documentName}";
+        // options.Authentication = new ScalarAuthenticationOptions
+        // {
+        //     PreferredSecurityScheme = "ApiKey",
+        //     ApiKey = new ApiKeyOptions
+        //     {
+        //         Token = "my-api-key"
+        //     }
+        // };
+    });
 }
 
 app.UseHttpsRedirection();
