@@ -261,3 +261,5 @@ C:\dotnet\_test\StarterKit\Apps\bin\Debug\net8.0\Pomelo.EntityFrameworkCore.MySq
 C:\dotnet\_test\StarterKit\Apps\obj\Debug\net8.0\Apps.sourcelink.json
 C:\dotnet\_test\StarterKit\Apps\bin\Debug\net8.0\AutoMapper.dll
 C:\dotnet\_test\StarterKit\Apps\bin\Debug\net8.0\BCrypt.Net-Next.dll
+C:\dotnet\_test\StarterKit\Apps\bin\Debug\net8.0\Scalar.AspNetCore.dll
+C:\dotnet\_test\StarterKit\Apps\bin\Debug\net8.0\FluentValidation.dll
