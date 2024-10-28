@@ -1,9 +1,18 @@
 using System.Linq.Expressions;
+using Apps.Repositories.Interfaces;
 
-namespace Apps.Repositories.Extensions
+namespace Apps.Repositories
 {
-    public static class QueryableExtension
+    public static class Extensions
     {
+        public static WebApplicationBuilder UseRepositories(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddScoped<ITodoRepository, TodoRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+            return builder;
+        }
+
         public static IOrderedQueryable<T> OrderByColumn<T>(this IQueryable<T> source, string columnPath, string direction = "asc")
         {
             return direction.ToLower() switch

@@ -3,7 +3,6 @@ using Apps.Data.Models;
 using Apps.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Apps.Repositories.Interfaces;
-using Apps.Repositories.Extensions;
 
 namespace Apps.Repositories
 {

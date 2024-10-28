@@ -1,7 +1,6 @@
 using Apps.Data.Ctx;
 using Apps.Data.Entities;
 using Apps.Data.Models;
-using Apps.Repositories.Extensions;
 using Apps.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
