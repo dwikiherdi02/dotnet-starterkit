@@ -1,6 +1,10 @@
 using System.Net;
 using Apps.Data.Entities;
+using Apps.Data.Entities.Rules;
 using Apps.Services.Interfaces;
+using Apps.Utilities._Response;
+using Apps.Utilities._ValidationErrorBuilder;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Apps.Controllers
@@ -12,21 +16,35 @@ namespace Apps.Controllers
         private readonly ITodoService _service;
 
         public TodoController(ITodoService service) {
+
             _service = service;
         }
 
         [HttpGet]
+        // [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+        // [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> GetList([FromQuery] TodoEntityQuery queryParams)
-        {
-            var list = await _service.FindAll(queryParams);
-            
-            return Ok(new {
-                code = HttpStatusCode.OK,
-                message = HttpStatusCode.OK.ToString(),
-                results = list
-            });
-        }
+        {   
+            TodoEntityQueryRule validator = new TodoEntityQueryRule();
+            ValidationResult results = validator.Validate(queryParams);
 
+            if(!results.IsValid) 
+            {
+                var errors = _ValidationErrorBuilder.Generate<TodoEntityQuery>(results.Errors);
+                
+                return new _Response(this)
+                            .WithCode(HttpStatusCode.BadRequest)
+                            .WithError(errors)
+                            .Json();
+            }
+
+            var list = await _service.FindAll(queryParams);
+
+            return new _Response(this)
+                            .WithCode(HttpStatusCode.OK)
+                            .WithResult(list)
+                            .Json();
+        }
 
         [HttpPost]
         public async Task<ActionResult> PostItem([FromBody] TodoEntityBody body)
@@ -35,17 +53,14 @@ namespace Apps.Controllers
             
             if (todo == null)
             {
-                return BadRequest(new {
-                    code = HttpStatusCode.BadRequest,
-                    message = HttpStatusCode.BadRequest.ToString(),
-                });
+                // return new _Response(this, HttpStatusCode.BadRequest, "An error occurred while saving your data. Please try again later.").Json();
+                return new _Response(this, HttpStatusCode.BadRequest, "Data gagal disimpan, silahkan ulangi kembali.").Json();
             }
-            
-            return Ok(new {
-                code = HttpStatusCode.Created,
-                message = HttpStatusCode.Created.ToString(),
-                results = todo
-            });
+
+            // return new _Response(this, HttpStatusCode.OK, "Data saved successfully")
+            return new _Response(this, HttpStatusCode.OK, "Data berhasil disimpan.")
+                            .WithResult(todo)
+                            .Json();
         }
 
         [HttpGet("{id}")]
@@ -55,17 +70,12 @@ namespace Apps.Controllers
 
             if (item == null)
             {
-                return NotFound(new {
-                    code = HttpStatusCode.NotFound,
-                    message = HttpStatusCode.NotFound.ToString(),    
-                });
+                return new _Response(this, HttpStatusCode.NotFound, "Data tidak ditemukan.").Json();
             }
-            
-            return Ok(new {
-                code = HttpStatusCode.OK,
-                message = HttpStatusCode.OK.ToString(),
-                results = item,
-            });
+
+            return new _Response(this, HttpStatusCode.OK)
+                            .WithResult(item)
+                            .Json();
         }
 
         [HttpPut("{id}")]
@@ -75,21 +85,15 @@ namespace Apps.Controllers
 
             if (todo == null)
             {
-                return NotFound(new {
-                    code = HttpStatusCode.NotFound,
-                    message = HttpStatusCode.NotFound.ToString(),    
-                });
+                return new _Response(this, HttpStatusCode.NotFound, "Data tidak ditemukan.").Json();
             }
 
             if (todo == false)
             {
-                return BadRequest(new {
-                    code = HttpStatusCode.BadRequest,
-                    message = HttpStatusCode.BadRequest.ToString(),
-                });
+                return new _Response(this, HttpStatusCode.BadRequest, "Data gagal disimpan.").Json();
             }
 
-            return NoContent();
+            return new _Response(this, HttpStatusCode.NoContent, "Data berhasil disimpan.").Json();
         }
 
         [HttpDelete("{id}")]
@@ -99,21 +103,15 @@ namespace Apps.Controllers
 
             if (todo == null)
             {
-                return NotFound(new {
-                    code = HttpStatusCode.NotFound,
-                    message = HttpStatusCode.NotFound.ToString(),    
-                });
+                return new _Response(this, HttpStatusCode.NotFound, "Data tidak ditemukan.").Json();
             }
 
             if (todo == false)
             {
-                return BadRequest(new {
-                    code = HttpStatusCode.BadRequest,
-                    message = HttpStatusCode.BadRequest.ToString(),
-                });
+                return new _Response(this, HttpStatusCode.BadRequest, "Data gagal dihapus.").Json();
             }
 
-            return NoContent();
+            return new _Response(this, HttpStatusCode.NoContent, "Data berhasil dihapus.").Json();
         }
     }
 }
