@@ -41,5 +41,32 @@ namespace Apps.Utilities._Convertion
 
             return jsonName;
         }
+
+        /* public static string ToBodyPropName<T>(string propertyName) where T : class
+        {
+            string bodyName = propertyName;
+
+            Type type = typeof(T);
+
+            // PropertyInfo? property = type.GetProperty(propertyName);
+
+            foreach (var method in type.GetMethods())
+            {
+                foreach (var parameter in method.GetParameters())
+                {
+                    if (parameter.Name == propertyName)
+                    {
+                        var attribute = parameter.GetCustomAttribute<FromBodyAttribute>();
+                        
+                        if (attribute != null)
+                        {
+                            bodyName = method.Name ?? propertyName;
+                        }
+                    }
+                }
+            }
+
+            return bodyName;
+        } */
     }
 }

@@ -6,7 +6,7 @@ namespace Apps.Utilities._ValidationErrorBuilder
 {
     public sealed class _ValidationErrorBuilder
     {
-        public static Dictionary<string, string> Generate<T>(List<ValidationFailure>? errors) where T : class
+        public static Dictionary<string, string> Generate<T>(List<ValidationFailure>? errors, string entityType = "query") where T : class
         {
             var dict = new Dictionary<string, string>();
 
@@ -14,7 +14,18 @@ namespace Apps.Utilities._ValidationErrorBuilder
             {
                 foreach(var failure in errors)
                 {   
-                    string propertyName = _Convertion._Property.ToQueryPropName<T>(failure.PropertyName);
+                    string propertyName = failure.PropertyName;
+                    switch (entityType)
+                    {
+                        case "query":
+                            propertyName = _Convertion._Property.ToQueryPropName<T>(propertyName);
+                            break;
+
+                        case "json":
+                            propertyName = _Convertion._Property.ToJsonPropName<T>(propertyName);
+                            break;
+                    }
+                    // string propertyName = _Convertion._Property.ToQueryPropName<T>(failure.PropertyName);
                     dict.Add(propertyName, failure.ErrorMessage);
                 }
             }
