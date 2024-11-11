@@ -64,7 +64,7 @@ namespace Apps.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetItemById(Guid id)
+        public async Task<ActionResult> GetItemById(Ulid id)
         {
             var item = await _service.FindById(id);
 
@@ -79,7 +79,7 @@ namespace Apps.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutItem(Guid id, [FromBody] TodoEntityBody body)
+        public async Task<ActionResult> PutItem(Ulid id, [FromBody] TodoEntityBody body)
         {
             var todo = await _service.Update(id, body);
 
@@ -93,11 +93,12 @@ namespace Apps.Controllers
                 return new _Response(this, HttpStatusCode.BadRequest, "Data gagal disimpan.").Json();
             }
 
-            return new _Response(this, HttpStatusCode.NoContent, "Data berhasil disimpan.").Json();
+            // return new _Response(this, HttpStatusCode.NoContent, "Data berhasil disimpan.").Json();
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteItem(Guid id)
+        public async Task<ActionResult> DeleteItem(Ulid id)
         {
             var todo = await _service.Destroy(id);
 
@@ -111,7 +112,8 @@ namespace Apps.Controllers
                 return new _Response(this, HttpStatusCode.BadRequest, "Data gagal dihapus.").Json();
             }
 
-            return new _Response(this, HttpStatusCode.NoContent, "Data berhasil dihapus.").Json();
+            // return new _Response(this, HttpStatusCode.NoContent, "Data berhasil dihapus.").Json();
+            return NoContent();
         }
     }
 }

@@ -2,6 +2,8 @@ using Apps.Data.Models;
 using Apps.Config;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Apps.Utilities._Ulid;
 
 namespace Apps.Data.Ctx
 {
@@ -14,8 +16,19 @@ namespace Apps.Data.Ctx
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Todo>(entity => {
+                entity.HasKey(p => p.Id);
+
+                // Mengonversi ULID ke string
+                /* var ulidConverter = new ValueConverter<Ulid, string>(
+                    ulid => ulid.ToFormattedString(),
+                    str => _Ulid.FromFormattedString(str)); */
+                var ulidConverter = new ValueConverter<Ulid, string>(
+                    ulid => ulid.ToString(),
+                    str => Ulid.Parse(str));
+                
                 entity
                     .Property(p => p.Id)
+                    .HasConversion(ulidConverter)
                     .ValueGeneratedOnAdd();
 
                 entity

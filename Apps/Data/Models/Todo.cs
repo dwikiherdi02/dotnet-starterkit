@@ -7,9 +7,10 @@ namespace Apps.Data.Models
     [Table("todos")]
     public class Todo : ISoftDelete
     {
-        [Column("id", TypeName = "VARCHAR(36)")]
+        [Column("id", TypeName = "VARCHAR(26)")]
         [Key]
-        public Guid Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public Ulid Id { get; set; } = Ulid.NewUlid();
 
         [Column("name", TypeName = "VARCHAR(100)")]
         [Required]

@@ -30,7 +30,7 @@ namespace Apps.Services
             return list;
         }
 
-        public async Task<TodoEntityResponse?> FindById(Guid id)
+        public async Task<TodoEntityResponse?> FindById(Ulid id)
         {
             Todo? todo = await _todoRepo.FindById(id);
 
@@ -59,7 +59,7 @@ namespace Apps.Services
             return res;
         }
 
-        public async Task<bool?> Update(Guid id, TodoEntityBody body)
+        public async Task<bool?> Update(Ulid id, TodoEntityBody body)
         {
             var todo = await _todoRepo.FindById(id);
 
@@ -76,7 +76,7 @@ namespace Apps.Services
             return await _todoRepo.Update(todo);
         }
 
-        public async Task<bool?> Destroy(Guid id)
+        public async Task<bool?> Destroy(Ulid id)
         {
             var todo = await _todoRepo.FindById(id);
 

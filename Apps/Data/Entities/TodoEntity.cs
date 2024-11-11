@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +11,12 @@ namespace Apps.Data.Entities
         public string? Search { get; set; }
 
         [FromQuery(Name = "page")]
+        [DefaultValue(1)]
         // [RegularExpression(@"^\d{1,}$", ErrorMessage = "Page must be number and minimum length is 1")]
         public int Page { get; set; }
 
         [FromQuery(Name = "pagesize")]
+        [DefaultValue(10)]
         // [RegularExpression(@"^[0-9]*$", ErrorMessage = "Page size must be number")]
         public int PageSize { get; set; }
 
@@ -24,16 +27,18 @@ namespace Apps.Data.Entities
     public class TodoEntityBody
     {
         [JsonPropertyName("name")]
+        [DefaultValue("Todo 1st")]
         public string? Name { get; set; }
 
         [JsonPropertyName("is_complete")]
+        [DefaultValue(false)]
         public bool IsComplete { get; set; }
     }
 
     public class TodoEntityResponse
     {
         [JsonPropertyName("id")]
-        public Guid Id { get; set; }
+        public Ulid Id { get; set; }
 
         [JsonPropertyName("name")]
         public string? Name { get; set; }

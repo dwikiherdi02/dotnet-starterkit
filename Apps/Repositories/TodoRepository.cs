@@ -48,12 +48,19 @@ namespace Apps.Repositories
             return (list, count);
         }
         
-        public async Task<Todo?> FindById(Guid id)
+        public async Task<Todo?> FindById(Ulid id)
         {
             // https://chatgpt.com/share/6724a786-2c98-8008-be0d-abd11fb73fab
             // return await _todoCtx.Todos.SingleOrDefaultAsync(q => q.Id == id);   
-            return await _todoCtx.Todos.FirstOrDefaultAsync(q => q.Id == id);
-            // return await _todoCtx.Todos.FindAsync(id);
+            // return await _todoCtx.Todos.FirstOrDefaultAsync(q => q.Id == id);
+            try
+            {
+                return await _todoCtx.Todos.FindAsync(id);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
         
         public async Task<Todo?> Store(Todo item)
