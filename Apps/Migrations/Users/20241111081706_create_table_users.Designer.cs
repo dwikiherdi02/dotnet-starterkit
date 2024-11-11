@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Apps.Migrations.Users
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20241111055750_create_table_users")]
+    [Migration("20241111081706_create_table_users")]
     partial class create_table_users
     {
         /// <inheritdoc />

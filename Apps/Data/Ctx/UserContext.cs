@@ -15,13 +15,17 @@ namespace Apps.Data.Ctx
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>(entity => {
-                var ulidConverter = new ValueConverter<Ulid, string>(
+                /* var ulidConverter = new ValueConverter<Ulid, string>(
                     ulid => ulid.ToString(),
                     str => Ulid.Parse(str));
                     
                 entity
                     .Property(p => p.Id)
                     .HasConversion(ulidConverter)
+                    .ValueGeneratedOnAdd(); */
+
+                entity
+                    .Property(p => p.Id)
                     .ValueGeneratedOnAdd();
 
                 entity
@@ -51,6 +55,19 @@ namespace Apps.Data.Ctx
                 entity
                     .HasIndex(p => p.IsDeleted)
                     .HasFilter("is_deleted = 0");
+
+                // one to one relationship with session
+                /* entity
+                    .HasOne(e => e.Session)
+                    .WithOne(e => e.User)
+                    .HasForeignKey<Session>(e => e.UserId); */
+                
+                // one to many relationship with session
+                /* entity
+                    .HasMany(e => e.Sessions)
+                    .WithOne(e => e.User)
+                    .HasForeignKey(e => e.UserId)
+                    .IsRequired(); */
             });
         }
     }

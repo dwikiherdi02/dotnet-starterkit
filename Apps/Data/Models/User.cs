@@ -10,7 +10,8 @@ namespace Apps.Data.Models
         [Column("id", TypeName = "VARCHAR(26)")]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public Ulid Id { get; set; } = Ulid.NewUlid();
+        // public Ulid Id { get; set; } = Ulid.NewUlid();
+        public string Id { get; set; } = Ulid.NewUlid().ToString();
 
         [Column("name", TypeName = "VARCHAR(100)")]
         public string Name { get; set; } = string.Empty;
@@ -38,5 +39,9 @@ namespace Apps.Data.Models
 
         [Column("is_deleted")]
         public bool IsDeleted { get; set; } = false;
+        
+        // public Session? Session { get; set; }
+
+        // public ICollection<Session> Sessions { get; } = new List<Session>();
     }
 }

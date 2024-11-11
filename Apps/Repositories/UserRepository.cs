@@ -56,7 +56,7 @@ namespace Apps.Repositories
             // return await _userCtx.Users.FirstOrDefaultAsync(q => q.Id == id);
             try
             {
-                return await _userCtx.Users.FindAsync(id);
+                return await _userCtx.Users.FindAsync(id.ToString());
             }
             catch (Exception)
             {
