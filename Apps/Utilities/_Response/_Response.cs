@@ -88,6 +88,11 @@ namespace Apps.Utilities._Response
             {
                 data.Errors = _error;
             }
+
+            if (_statusCode == HttpStatusCode.NoContent)
+            {
+                return new _ActionResult(_statusCode);
+            }
             
             return new _ActionResult(_statusCode, JsonSerializer.Serialize(data));
         }
