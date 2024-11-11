@@ -7,9 +7,9 @@ namespace Apps.Services.Interfaces
     public interface IUserService
     { 
         Task<IEnumerable<UserEntityResponse>> FindAll(UserEntityQuery queryParams);
-        Task<UserEntityResponse?> FindById(Guid id);
+        Task<UserEntityResponse?> FindById(Ulid id);
         Task<UserEntityResponse?> Store(UserEntityBody body);
-        Task<bool?> Update(Guid id, UserEntityBodyUpdate body);
-        Task<bool?> Destroy(Guid id);
+        Task<bool?> Update(Ulid id, UserEntityBodyUpdate body);
+        Task<bool?> Destroy(Ulid id);
     }
 }

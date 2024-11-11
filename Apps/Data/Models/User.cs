@@ -7,12 +7,13 @@ namespace Apps.Data.Models
     [Table("users")]
     public class User : ISoftDelete
     {
-        [Column("id", TypeName = "VARCHAR(36)")]
-        public Guid Id { get; set; }
+        [Column("id", TypeName = "VARCHAR(26)")]
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public Ulid Id { get; set; } = Ulid.NewUlid();
 
         [Column("name", TypeName = "VARCHAR(100)")]
-        [Required]
-        public required string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         
         [Column("username", TypeName = "VARCHAR(100)")]
         [Required]

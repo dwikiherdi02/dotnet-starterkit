@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,9 +19,11 @@ namespace Apps.Data.Entities
         public string? Search { get; set; }
 
         [FromQuery(Name = "page")]
+        [DefaultValue(1)]
         public int Page { get; set; }
 
         [FromQuery(Name = "pagesize")]
+        [DefaultValue(10)]
         public int PageSize { get; set; }
 
         // [FromQuery(Name = "orders")]
@@ -30,34 +33,41 @@ namespace Apps.Data.Entities
     public class UserEntityBody
     {
         [JsonPropertyName("name")]
+        [DefaultValue("Dwiki Herdiansyah")]
         public string? Name { get; set; }
 
         [JsonPropertyName("username")]
+        [DefaultValue("dwikiherdi02")]
         public string? Username { get; set; }
 
         [JsonPropertyName("email")]
+        [DefaultValue("dwiki@beit.co.id")]
         public string? Email { get; set; }
         
         [JsonPropertyName("password")]
+        [DefaultValue("password")]
         public string? Password { get; set; }
     }
 
     public class UserEntityBodyUpdate
     {
         [JsonPropertyName("name")]
+        [DefaultValue("Dwiki Herdiansyah")]
         public string? Name { get; set; }
 
         [JsonPropertyName("username")]
+        [DefaultValue("dwikiherdi02")]
         public string? Username { get; set; }
 
         [JsonPropertyName("email")]
+        [DefaultValue("dwiki@beit.co.id")]
         public string? Email { get; set; }
     }
 
     public class UserEntityResponse
     {
         [JsonPropertyName("id")]
-        public Guid Id { get; set; }
+        public Ulid Id { get; set; }
 
         [JsonPropertyName("name")]
         public string? Name { get; set; }

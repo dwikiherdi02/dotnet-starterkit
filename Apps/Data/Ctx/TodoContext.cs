@@ -16,7 +16,7 @@ namespace Apps.Data.Ctx
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Todo>(entity => {
-                entity.HasKey(p => p.Id);
+                // entity.HasKey(p => p.Id);
 
                 // Mengonversi ULID ke string
                 /* var ulidConverter = new ValueConverter<Ulid, string>(

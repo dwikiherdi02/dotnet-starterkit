@@ -3,6 +3,7 @@ using Apps.Data.Entities;
 using Apps.Services.Interfaces;
 using Apps.Utilities._Response;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
 
 namespace Apps.Controllers
 {
@@ -43,7 +44,7 @@ namespace Apps.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetUserById(Guid id)
+        public async Task<ActionResult> GetUserById(Ulid id)
         {
             var user = await _service.FindById(id);
 
@@ -58,7 +59,7 @@ namespace Apps.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutUser(Guid id, [FromBody] UserEntityBodyUpdate body)
+        public async Task<ActionResult> PutUser(Ulid id, [FromBody] UserEntityBodyUpdate body)
         {
             var user = await _service.Update(id, body);
 
@@ -72,11 +73,12 @@ namespace Apps.Controllers
                 return new _Response(this, HttpStatusCode.BadRequest, "Data gagal disimpan.").Json();
             }
 
-            return new _Response(this, HttpStatusCode.NoContent).Json();
+            // return new _Response(this, HttpStatusCode.NoContent).Json();
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteUser(Guid id)
+        public async Task<ActionResult> DeleteUser(Ulid id)
         {
             var user = await _service.Destroy(id);
 
@@ -90,7 +92,8 @@ namespace Apps.Controllers
                 return new _Response(this, HttpStatusCode.BadRequest, "Data gagal dihapus.").Json();
             }
 
-            return new _Response(this, HttpStatusCode.NoContent).Json();
+            // return new _Response(this, HttpStatusCode.NoContent).Json();
+            return NoContent();
         }
     }
 }

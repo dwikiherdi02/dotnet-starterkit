@@ -51,10 +51,17 @@ namespace Apps.Repositories
             return (list, count);
         }
 
-        public async Task<User?> FindById(Guid id)
+        public async Task<User?> FindById(Ulid id)
         {
-            return await _userCtx.Users.FirstOrDefaultAsync(q => q.Id == id);
-            // return await _userCtx.Users.FindAsync(id);
+            // return await _userCtx.Users.FirstOrDefaultAsync(q => q.Id == id);
+            try
+            {
+                return await _userCtx.Users.FindAsync(id);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public async Task<User?> Store(User item)
