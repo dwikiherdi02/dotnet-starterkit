@@ -38,7 +38,7 @@ namespace Apps.Data.Entities
     public class TodoEntityResponse
     {
         [JsonPropertyName("id")]
-        public Ulid Id { get; set; }
+        public string? Id { get; set; }
 
         [JsonPropertyName("name")]
         public string? Name { get; set; }

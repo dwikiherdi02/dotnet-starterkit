@@ -8,16 +8,16 @@ namespace Apps.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly UserContext _userCtx;
+        private readonly AppDbContext _dbCtx;
 
-        public UserRepository(UserContext userCtx)
+        public UserRepository(AppDbContext dbCtx)
         {
-            _userCtx = userCtx;
+            _dbCtx = dbCtx;
         }
 
         public async Task<(IEnumerable<User> list, int count)> FindAll(UserEntityQuery queryParams)
         {
-            var query = _userCtx.Users.AsQueryable();
+            var query = _dbCtx.Users.AsQueryable();
 
             if (queryParams.Search != null)
             {
@@ -53,10 +53,10 @@ namespace Apps.Repositories
 
         public async Task<User?> FindById(Ulid id)
         {
-            // return await _userCtx.Users.FirstOrDefaultAsync(q => q.Id == id);
+            // return await _dbCtx.Users.FirstOrDefaultAsync(q => q.Id == id);
             try
             {
-                return await _userCtx.Users.FindAsync(id.ToString());
+                return await _dbCtx.Users.FindAsync(id.ToString());
             }
             catch (Exception)
             {
@@ -66,14 +66,14 @@ namespace Apps.Repositories
 
         public async Task<User?> Store(User item)
         {
-            using var transaction = _userCtx.Database.BeginTransaction();
+            using var transaction = _dbCtx.Database.BeginTransaction();
 
             try
             {
                 await transaction.CreateSavepointAsync("StoreUserItem");
 
-                _userCtx.Users.Add(item);
-                await _userCtx.SaveChangesAsync();
+                _dbCtx.Users.Add(item);
+                await _dbCtx.SaveChangesAsync();
                 
                 await transaction.CommitAsync();
             }
@@ -89,7 +89,7 @@ namespace Apps.Repositories
 
         public async Task<bool> Update(User item)
         {
-            using var transaction = _userCtx.Database.BeginTransaction();
+            using var transaction = _dbCtx.Database.BeginTransaction();
 
             try
             {
@@ -97,9 +97,9 @@ namespace Apps.Repositories
 
                 item.UpdatedAt = DateTime.UtcNow;
 
-                _userCtx.Entry(item).State = EntityState.Modified;
+                _dbCtx.Entry(item).State = EntityState.Modified;
 
-                await _userCtx.SaveChangesAsync();
+                await _dbCtx.SaveChangesAsync();
 
                 await transaction.CommitAsync();
             }
@@ -114,14 +114,14 @@ namespace Apps.Repositories
 
         public async Task<bool> Destroy(User item)
         {
-            using var transaction = _userCtx.Database.BeginTransaction();
+            using var transaction = _dbCtx.Database.BeginTransaction();
 
             try
             {
                 await transaction.CreateSavepointAsync("DestroyTodoItem");
 
-                _userCtx.Users.Remove(item);
-                await _userCtx.SaveChangesAsync();
+                _dbCtx.Users.Remove(item);
+                await _dbCtx.SaveChangesAsync();
 
                 await transaction.CommitAsync();
             }

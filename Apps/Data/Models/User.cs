@@ -39,9 +39,7 @@ namespace Apps.Data.Models
 
         [Column("is_deleted")]
         public bool IsDeleted { get; set; } = false;
-        
-        // public Session? Session { get; set; }
 
-        // public ICollection<Session> Sessions { get; } = new List<Session>();
+        public ICollection<Session> Sessions { get; } = new List<Session>();
     }
 }

@@ -10,7 +10,8 @@ namespace Apps.Data.Models
         [Column("id", TypeName = "VARCHAR(26)")]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public Ulid Id { get; set; } = Ulid.NewUlid();
+        // public Ulid Id { get; set; } = Ulid.NewUlid();
+        public string Id { get; set; } = Ulid.NewUlid().ToString();
 
         [Column("name", TypeName = "VARCHAR(100)")]
         [Required]

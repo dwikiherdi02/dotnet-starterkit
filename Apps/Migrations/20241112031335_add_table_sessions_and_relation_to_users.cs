@@ -4,17 +4,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Apps.Migrations.Sessions
+namespace Apps.Migrations
 {
     /// <inheritdoc />
-    public partial class create_table_sessions : Migration
+    public partial class add_table_sessions_and_relation_to_users : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterDatabase()
-                .Annotation("MySql:CharSet", "utf8mb4");
-
             migrationBuilder.CreateTable(
                 name: "sessions",
                 columns: table => new
@@ -45,8 +42,7 @@ namespace Apps.Migrations.Sessions
             migrationBuilder.CreateIndex(
                 name: "IX_sessions_user_id",
                 table: "sessions",
-                column: "user_id",
-                unique: true);
+                column: "user_id");
         }
 
         /// <inheritdoc />

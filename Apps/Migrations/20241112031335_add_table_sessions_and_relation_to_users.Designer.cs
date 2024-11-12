@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Apps.Migrations.Sessions
+namespace Apps.Migrations
 {
-    [DbContext(typeof(SessionContext))]
-    [Migration("20241111093403_create_table_sessions")]
-    partial class create_table_sessions
+    [DbContext(typeof(AppDbContext))]
+    [Migration("20241112031335_add_table_sessions_and_relation_to_users")]
+    partial class add_table_sessions_and_relation_to_users
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,21 +59,67 @@ namespace Apps.Migrations.Sessions
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("sessions");
+                });
+
+            modelBuilder.Entity("Apps.Data.Models.Todo", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("VARCHAR(26)")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("DATETIME(6)")
+                        .HasColumnName("created_at");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTime?>("CreatedAt"));
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("DATETIME(6)")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<bool>("IsComplete")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_complete");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(100)")
+                        .HasColumnName("name");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("DATETIME(6)")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted")
+                        .HasFilter("is_deleted = 0");
+
+                    b.ToTable("todos");
                 });
 
             modelBuilder.Entity("Apps.Data.Models.User", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("VARCHAR(26)")
                         .HasColumnName("id");
 
                     b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("DATETIME(6)")
                         .HasColumnName("created_at");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTime?>("CreatedAt"));
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("DATETIME(6)")
@@ -109,14 +155,23 @@ namespace Apps.Migrations.Sessions
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("IsDeleted")
+                        .HasFilter("is_deleted = 0");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
+
                     b.ToTable("users");
                 });
 
             modelBuilder.Entity("Apps.Data.Models.Session", b =>
                 {
                     b.HasOne("Apps.Data.Models.User", "User")
-                        .WithOne("Session")
-                        .HasForeignKey("Apps.Data.Models.Session", "UserId")
+                        .WithMany("Sessions")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -125,7 +180,7 @@ namespace Apps.Migrations.Sessions
 
             modelBuilder.Entity("Apps.Data.Models.User", b =>
                 {
-                    b.Navigation("Session");
+                    b.Navigation("Sessions");
                 });
 #pragma warning restore 612, 618
         }

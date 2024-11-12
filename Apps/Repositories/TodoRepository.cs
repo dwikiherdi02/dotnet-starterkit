@@ -8,16 +8,16 @@ namespace Apps.Repositories
 {
     public class TodoRepository : ITodoRepository
     {
-        private readonly TodoContext _todoCtx;
+        private readonly AppDbContext _dbCtx;
         
-        public TodoRepository(TodoContext todoCtx)
+        public TodoRepository(AppDbContext dbCtx)
         {
-            _todoCtx = todoCtx;
+            _dbCtx = dbCtx;
         }
 
         public async Task<(IEnumerable<Todo> list, int count)> FindAll(TodoEntityQuery queryParams)
         {
-            var query = _todoCtx.Todos.AsQueryable();
+            var query = _dbCtx.Todos.AsQueryable();
             
             if (queryParams.Search != null)
             {
@@ -51,11 +51,11 @@ namespace Apps.Repositories
         public async Task<Todo?> FindById(Ulid id)
         {
             // https://chatgpt.com/share/6724a786-2c98-8008-be0d-abd11fb73fab
-            // return await _todoCtx.Todos.SingleOrDefaultAsync(q => q.Id == id);   
-            // return await _todoCtx.Todos.FirstOrDefaultAsync(q => q.Id == id);
+            // return await _dbCtx.Todos.SingleOrDefaultAsync(q => q.Id == id);   
+            // return await _dbCtx.Todos.FirstOrDefaultAsync(q => q.Id == id);
             try
             {
-                return await _todoCtx.Todos.FindAsync(id);
+                return await _dbCtx.Todos.FindAsync(id.ToString());
             }
             catch (Exception)
             {
@@ -65,14 +65,14 @@ namespace Apps.Repositories
         
         public async Task<Todo?> Store(Todo item)
         {
-            using var transaction = _todoCtx.Database.BeginTransaction();
+            using var transaction = _dbCtx.Database.BeginTransaction();
 
             try
             {
                 await transaction.CreateSavepointAsync("StoreTodoItem");
 
-                _todoCtx.Todos.Add(item);
-                await _todoCtx.SaveChangesAsync();
+                _dbCtx.Todos.Add(item);
+                await _dbCtx.SaveChangesAsync();
                 
                 await transaction.CommitAsync();
             }
@@ -88,7 +88,7 @@ namespace Apps.Repositories
         
         public async Task<bool> Update(Todo item)
         {
-            using var transaction = _todoCtx.Database.BeginTransaction();
+            using var transaction = _dbCtx.Database.BeginTransaction();
 
             try
             {
@@ -96,9 +96,9 @@ namespace Apps.Repositories
 
                 item.UpdatedAt = DateTime.UtcNow;
 
-                _todoCtx.Entry(item).State = EntityState.Modified;
+                _dbCtx.Entry(item).State = EntityState.Modified;
 
-                await _todoCtx.SaveChangesAsync();
+                await _dbCtx.SaveChangesAsync();
 
                 await transaction.CommitAsync();
             }
@@ -113,14 +113,14 @@ namespace Apps.Repositories
         
         public async Task<bool> Destroy(Todo item)
         {
-            using var transaction = _todoCtx.Database.BeginTransaction();
+            using var transaction = _dbCtx.Database.BeginTransaction();
 
             try
             {
                 await transaction.CreateSavepointAsync("DestroyTodoItem");
 
-                _todoCtx.Todos.Remove(item);
-                await _todoCtx.SaveChangesAsync();
+                _dbCtx.Todos.Remove(item);
+                await _dbCtx.SaveChangesAsync();
 
                 await transaction.CommitAsync();
             }
