@@ -8,7 +8,6 @@ using Apps.Utilities._Response;
 using Apps.Utilities._ValidationErrorBuilder;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
 
 namespace Apps.Controllers
 {
@@ -60,15 +59,43 @@ namespace Apps.Controllers
         }
 
         [HttpPost("refresh-token")]
-        public ActionResult PostRefreshToken()
+        public ActionResult PostRefreshToken([FromBody] AuthEntityRefreshTokenBody body)
         {
-            return new _Response(this).Json();
+            AuthEntityRefreshTokenBodyRule validator = new AuthEntityRefreshTokenBodyRule();
+            ValidationResult results = validator.Validate(body);
+
+            if(!results.IsValid) 
+            {
+                var errors = _ValidationErrorBuilder.Generate<AuthEntityLoginBody>(results.Errors, "json");
+                
+                return new _Response(this)
+                            .WithCode(HttpStatusCode.BadRequest)
+                            .WithErrors(errors)
+                            .Json();
+            }
+
+            try
+            {
+                var token = _authService.RefreshToken(body.RefreshToken);
+
+                return new _Response(this)
+                            .WithResult(token)
+                            .Json();
+            }
+            catch (HttpResponseException e)
+            {
+                return new _Response(this, e.StatusCode).WithError(e.Message).Json();
+            }
+            catch  (Exception e)
+            {
+                return new _Response(this, HttpStatusCode.BadRequest).WithError(e.Message).Json();
+            }
         }
 
-        [HttpPost("forgot-password")]
+        /* [HttpPost("forgot-password")]
         public ActionResult PostForgotPassword()
         {
             return new _Response(this).Json();
-        }
+        } */
     }
 }

@@ -12,4 +12,12 @@ namespace Apps.Data.Entities.Rules
             RuleFor(b => b.Password).NotEmpty();
         }
     }
+
+    public class AuthEntityRefreshTokenBodyRule : AbstractValidator<AuthEntityRefreshTokenBody>
+    {
+        public AuthEntityRefreshTokenBodyRule()
+        {
+            RuleFor(b => b.RefreshToken).NotEmpty();
+        }
+    }
 }

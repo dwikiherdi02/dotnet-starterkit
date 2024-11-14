@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Apps.Data.Entities
@@ -15,6 +14,13 @@ namespace Apps.Data.Entities
         public string Password { get; set; } = string.Empty;
     }
 
+    public class AuthEntityRefreshTokenBody
+    {
+        [JsonPropertyName("refresh_token")]
+        [DefaultValue("")]
+        public string RefreshToken { get; set; } = string.Empty;
+    }
+
     public class AuthEntityLoginResponse
     {
         [JsonPropertyName("user")]
@@ -25,6 +31,12 @@ namespace Apps.Data.Entities
 
         [JsonPropertyName("refresh_token")]
         public string RefreshToken { get; set; } = string.Empty;
+    }
+
+    public class AuthEntityRefreshTokenResponse
+    {
+        [JsonPropertyName("access_token")]
+        public string AccessToken { get; set; } = string.Empty;
     }
 
     public class AuthEntityUserProp

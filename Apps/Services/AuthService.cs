@@ -1,6 +1,5 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Net;
-using System.Text;
+using System.Security.Claims;
 using Apps.Config;
 using Apps.Data.Entities;
 using Apps.Data.Models;
@@ -11,7 +10,7 @@ using Apps.Utilities._BCrypt;
 using Apps.Utilities._ClientInfo;
 using Apps.Utilities._Common;
 using Apps.Utilities._Convertion;
-using Apps.Utilities._JtwGenerator;
+using Apps.Utilities._JwtGenerator;
 using Microsoft.Extensions.Options;
 
 namespace Apps.Services
@@ -82,18 +81,18 @@ namespace Apps.Services
                 throw new HttpResponseException("Terjadi kesalahan pada sistem. silahkan hubungin admin.", HttpStatusCode.InternalServerError);
             }
 
-            string accessToken = new _JtwGenerator()
+            string accessToken = new _JwtGenerator()
                                         .AddSecret(_config.Jwt.Secret)
                                         .AddExpiredIn(accessTokenTtl)
-                                        .AddClaim("sess_id", session.Id)
-                                        .AddClaim("type", "access")
+                                        .AddClaim("sid", session.Id)
+                                        .AddClaim("typ", "access")
                                         .Generate();
 
-            string refreshToken = new _JtwGenerator()
+            string refreshToken = new _JwtGenerator()
                                         .AddSecret(_config.Jwt.Secret)
                                         .AddExpiredIn(refreshTokenTtl)
-                                        .AddClaim("sess_id", session.Id)
-                                        .AddClaim("type", "refresh")
+                                        .AddClaim("sid", session.Id)
+                                        .AddClaim("typ", "refresh")
                                         .Generate();
             
             return new AuthEntityLoginResponse{
@@ -103,6 +102,42 @@ namespace Apps.Services
                 },
                 AccessToken = accessToken,
                 RefreshToken = refreshToken
+            };
+        }
+
+        public AuthEntityRefreshTokenResponse RefreshToken(string rToken)
+        {
+            ClaimsPrincipal? claimsPrincipal;
+            
+            var IsValid = new _JwtGenerator()
+                                .AddSecret(_config.Jwt.Secret)
+                                .Validate(rToken, out claimsPrincipal);
+
+            if (!IsValid)
+            {
+                throw new HttpResponseException("Token tidak valid.", HttpStatusCode.BadRequest);
+            }
+
+            var type = claimsPrincipal!.FindFirst(x => x.Type == "typ")?.Value;
+            
+            var sessId = claimsPrincipal!.FindFirst(x => x.Type == "sid")?.Value;
+
+            if (type != "refresh" && sessId == null)
+            {
+                throw new HttpResponseException("Token tidak valid.", HttpStatusCode.BadRequest);
+            }
+
+            var accessTokenTtl = DateTime.UtcNow.AddSeconds(_Int.ToDouble(_config.Jwt.AccessTokenTtl));
+            
+            string accessToken = new _JwtGenerator()
+                                        .AddSecret(_config.Jwt.Secret)
+                                        .AddExpiredIn(accessTokenTtl)
+                                        .AddClaim("sid", sessId!)
+                                        .AddClaim("typ", "access")
+                                        .Generate();
+                                
+            return new AuthEntityRefreshTokenResponse{
+                AccessToken = accessToken
             };
         }
     }

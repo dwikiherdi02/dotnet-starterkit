@@ -2,7 +2,7 @@ using System.Net;
 using System.Security.Claims;
 using Apps.Config;
 using Apps.Middlewares.Attributes;
-using Apps.Utilities._JtwGenerator;
+using Apps.Utilities._JwtGenerator;
 using Apps.Utilities._Response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -63,7 +63,7 @@ namespace Apps.Middlewares
                     return;
                 }
 
-                var sessId = claimsPrincipal!.FindFirst(x => x.Type == "sess_id")?.Value;
+                var sessId = claimsPrincipal!.FindFirst(x => x.Type == "sid")?.Value;
             }
 
             await _next(context);
@@ -71,7 +71,7 @@ namespace Apps.Middlewares
 
         private bool IsValidToken(string token, out ClaimsPrincipal? claimsPrincipal)
         {
-            bool isValid = new _JtwGenerator()
+            bool isValid = new _JwtGenerator()
                                     .AddSecret(_jwtCfg.Secret)
                                     .Validate(token!, out claimsPrincipal);
             
@@ -80,7 +80,7 @@ namespace Apps.Middlewares
                 return false;
             }
 
-            var type = claimsPrincipal!.FindFirst(x => x.Type == "type")?.Value;
+            var type = claimsPrincipal!.FindFirst(x => x.Type == "typ")?.Value;
 
             if (type != "access")
             {
