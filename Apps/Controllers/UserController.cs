@@ -1,5 +1,6 @@
 using System.Net;
 using Apps.Data.Entities;
+using Apps.Middlewares.Attributes;
 using Apps.Services.Interfaces;
 using Apps.Utilities._Response;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ namespace Apps.Controllers
 {
     [ApiController]
     [Route("api/users")]
+    [AuthMiddleware]
     public class UserController : ControllerBase
     {
         private readonly IUserService _service;

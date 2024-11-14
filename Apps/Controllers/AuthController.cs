@@ -1,11 +1,14 @@
 using System.Net;
-using System.Text.Json;
 using Apps.Data.Entities;
 using Apps.Data.Entities.Rules;
+using Apps.Data.Models;
+using Apps.Exceptions;
+using Apps.Services.Interfaces;
 using Apps.Utilities._Response;
 using Apps.Utilities._ValidationErrorBuilder;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 
 namespace Apps.Controllers
 {
@@ -13,10 +16,15 @@ namespace Apps.Controllers
     [Route("api/auth")]
     public class AuthController : ControllerBase
     {
+        private readonly IAuthService _authService;
+
+        public AuthController(IAuthService authService)
+        {
+            _authService = authService;
+        } 
         
         [HttpPost("login")]
-        // public async Task<ActionResult> PostLogin()
-        public ActionResult PostLogin([FromBody] AuthEntityLoginBody body)
+        public async Task<ActionResult> PostLogin([FromBody] AuthEntityLoginBody body)
         {   
             AuthEntityLoginBodyRule validator = new AuthEntityLoginBodyRule();
             ValidationResult results = validator.Validate(body);
@@ -27,11 +35,28 @@ namespace Apps.Controllers
                 
                 return new _Response(this)
                             .WithCode(HttpStatusCode.BadRequest)
-                            .WithError(errors)
+                            .WithErrors(errors)
                             .Json();
             }
 
-            return new _Response(this).Json();
+            try
+            {
+                User user = await _authService.Login(body);
+
+                var token = await _authService.GenerateToken(user);
+
+                return new _Response(this)
+                            .WithResult(token)
+                            .Json();
+            }
+            catch (HttpResponseException e)
+            {
+                return new _Response(this, e.StatusCode).WithError(e.Message).Json();
+            }
+            catch (Exception e)
+            {
+                return new _Response(this, HttpStatusCode.BadRequest).WithError(e.Message).Json();
+            }
         }
 
         [HttpPost("refresh-token")]

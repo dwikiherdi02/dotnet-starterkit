@@ -8,6 +8,8 @@ namespace Apps.Services
         {
             builder.Services.AddScoped<ITodoService, TodoService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
+
             return builder;
         }
     }

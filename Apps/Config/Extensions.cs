@@ -9,6 +9,7 @@ namespace Apps.Config
             builder.Services.Configure<AppCfg>(builder.Configuration.GetSection("App"));
             builder.Services.Configure<DatabaseCfg>(builder.Configuration.GetSection("App:Database"));
             builder.Services.Configure<MailerCfg>(builder.Configuration.GetSection("App:Mailer"));
+            builder.Services.Configure<JwtCfg>(builder.Configuration.GetSection("App:Jwt"));
             
             return builder;
         }

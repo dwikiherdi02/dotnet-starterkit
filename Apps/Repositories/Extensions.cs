@@ -9,6 +9,7 @@ namespace Apps.Repositories
         {
             builder.Services.AddScoped<ITodoRepository, TodoRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
             return builder;
         }

@@ -1,6 +1,7 @@
 using System.Net;
 using Apps.Data.Entities;
 using Apps.Data.Entities.Rules;
+using Apps.Middlewares.Attributes;
 using Apps.Services.Interfaces;
 using Apps.Utilities._Response;
 using Apps.Utilities._ValidationErrorBuilder;
@@ -11,6 +12,7 @@ namespace Apps.Controllers
 {
     [ApiController]
     [Route("api/todos")]
+    [AuthMiddleware]
     public class TodoController : ControllerBase
     {
         private readonly ITodoService _service;
@@ -34,7 +36,7 @@ namespace Apps.Controllers
                 
                 return new _Response(this)
                             .WithCode(HttpStatusCode.BadRequest)
-                            .WithError(errors)
+                            .WithErrors(errors)
                             .Json();
             }
 

@@ -23,8 +23,7 @@ namespace Apps.Data.Models
         public int IpAddress { get; set; }
 
         [Column("user_agent", TypeName = "VARCHAR(255)")]
-        [Required]
-        public required string UserAgent { get; set; }
+        public string? UserAgent { get; set; }
 
         [Column("expired_at", TypeName = "DATETIME(6)")]
         public DateTime? ExpiredAt { get; set; }
