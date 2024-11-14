@@ -3,9 +3,9 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Apps.Utilities._JtwGenerator
+namespace Apps.Utilities._JwtGenerator
 {
-    public sealed class _JtwGenerator
+    public sealed class _JwtGenerator
     {
         // private readonly JwtSecurityTokenHandler _handler;
 
@@ -15,20 +15,20 @@ namespace Apps.Utilities._JtwGenerator
 
         private DateTime _expiredIn;
 
-        public _JtwGenerator AddSecret(string secret)
+        public _JwtGenerator AddSecret(string secret)
         {
             _secret = Encoding.UTF8.GetBytes(secret);
 
             return this;
         }
 
-        public _JtwGenerator AddClaim(string key, string value)
+        public _JwtGenerator AddClaim(string key, string value)
         {
             _claims.AddClaim(new Claim(key, value));
             return this;
         }
 
-        public _JtwGenerator AddExpiredIn(DateTime expiredIn)
+        public _JwtGenerator AddExpiredIn(DateTime expiredIn)
         {
             _expiredIn = expiredIn;
             return this;
