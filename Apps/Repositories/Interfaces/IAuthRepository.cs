@@ -7,5 +7,7 @@ namespace Apps.Repositories.Interfaces
         Task<User?> FindUserByEmail(string email);
         Task<User?> FindUserByUsername(string username);
         Task<Session?> StoreSession(Session session);
+        Task<Session?> FindSessionById(Ulid id);
+        Task<bool> DestroySession(Session item);
     }
 }

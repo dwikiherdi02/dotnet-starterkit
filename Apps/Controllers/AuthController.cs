@@ -59,7 +59,7 @@ namespace Apps.Controllers
         }
 
         [HttpPost("refresh-token")]
-        public ActionResult PostRefreshToken([FromBody] AuthEntityRefreshTokenBody body)
+        public async Task<ActionResult> PostRefreshToken([FromBody] AuthEntityRefreshTokenBody body)
         {
             AuthEntityRefreshTokenBodyRule validator = new AuthEntityRefreshTokenBodyRule();
             ValidationResult results = validator.Validate(body);
@@ -76,7 +76,7 @@ namespace Apps.Controllers
 
             try
             {
-                var token = _authService.RefreshToken(body.RefreshToken);
+                var token = await _authService.RefreshToken(body.RefreshToken);
 
                 return new _Response(this)
                             .WithResult(token)

@@ -2,6 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Apps.Data.Models
 {
@@ -30,7 +31,8 @@ namespace Apps.Data.Models
         
         [Column("created_at", TypeName = "DATETIME(6)")]
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
-        
+
+        [JsonIgnore]        
         public User User { get; set; } = null!;
     }
 }

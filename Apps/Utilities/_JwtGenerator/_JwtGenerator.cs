@@ -13,7 +13,9 @@ namespace Apps.Utilities._JwtGenerator
 
         private ClaimsIdentity _claims = new ClaimsIdentity();
 
-        private DateTime _expiredIn;
+        private DateTime? _expiredIn;
+
+        private TokenValidationParameters _validateParameters = new TokenValidationParameters();
 
         public _JwtGenerator AddSecret(string secret)
         {
@@ -34,6 +36,13 @@ namespace Apps.Utilities._JwtGenerator
             return this;
         }
 
+        public _JwtGenerator AddValidateParamters(TokenValidationParameters parameters)
+        {
+            _validateParameters = parameters;
+            return this;
+        }
+        
+
         public string Generate()
         {
             var handler = new JwtSecurityTokenHandler();
@@ -42,12 +51,23 @@ namespace Apps.Utilities._JwtGenerator
                                 new SymmetricSecurityKey(_secret),
                                 SecurityAlgorithms.HmacSha256);
 
-            var tokenDescriptor = new SecurityTokenDescriptor
+            /* var tokenDescriptor = new SecurityTokenDescriptor
             {
                 SigningCredentials = credentials,
                 Expires = _expiredIn,
                 Subject = _claims
-            };
+            }; */
+
+            var tokenDescriptor = new SecurityTokenDescriptor();
+
+            tokenDescriptor.SigningCredentials = credentials;
+
+            if (_expiredIn != null)
+            {
+                tokenDescriptor.Expires = _expiredIn;
+            }
+
+            tokenDescriptor.Subject = _claims;
 
             var token = handler.CreateToken(tokenDescriptor);
             
@@ -63,7 +83,8 @@ namespace Apps.Utilities._JwtGenerator
                 var handler = new JwtSecurityTokenHandler();
 
                 // Set token validation parameters
-                var validationParameters = new TokenValidationParameters
+                var validationParameters = _validateParameters;
+                /* var validationParameters = new TokenValidationParameters
                 {
                     // ValidateIssuerSigningKey = true,
                     // IssuerSigningKey = new SymmetricSecurityKey(_secret),
@@ -79,7 +100,7 @@ namespace Apps.Utilities._JwtGenerator
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     ClockSkew = TimeSpan.Zero
-                };
+                }; */
 
                 // Validasi token
                 claimsPrincipal = handler.ValidateToken(token, validationParameters, out _);

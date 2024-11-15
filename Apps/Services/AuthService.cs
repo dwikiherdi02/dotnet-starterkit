@@ -1,5 +1,6 @@
 using System.Net;
 using System.Security.Claims;
+using System.Text;
 using Apps.Config;
 using Apps.Data.Entities;
 using Apps.Data.Models;
@@ -12,6 +13,7 @@ using Apps.Utilities._Common;
 using Apps.Utilities._Convertion;
 using Apps.Utilities._JwtGenerator;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Apps.Services
 {
@@ -105,12 +107,26 @@ namespace Apps.Services
             };
         }
 
-        public AuthEntityRefreshTokenResponse RefreshToken(string rToken)
+        public async Task<AuthEntityRefreshTokenResponse> RefreshToken(string rToken)
         {
             ClaimsPrincipal? claimsPrincipal;
             
             var IsValid = new _JwtGenerator()
-                                .AddSecret(_config.Jwt.Secret)
+                                .AddValidateParamters(new TokenValidationParameters{
+                                    /* ValidateIssuerSigningKey = true,
+                                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.Jwt.Secret)),
+                                    ValidateIssuer = false,
+                                    ValidateAudience = false,
+                                    ValidateLifetime = false,
+                                    RequireExpirationTime = false,
+                                    ClockSkew = TimeSpan.Zero */
+
+                                    ValidateIssuerSigningKey = true,
+                                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.Jwt.Secret)),
+                                    ValidateIssuer = false,
+                                    ValidateAudience = false,
+                                    ClockSkew = TimeSpan.Zero
+                                })
                                 .Validate(rToken, out claimsPrincipal);
 
             if (!IsValid)
@@ -127,12 +143,19 @@ namespace Apps.Services
                 throw new HttpResponseException("Token tidak valid.", HttpStatusCode.BadRequest);
             }
 
+            var session = await _authRepo.FindSessionById(Ulid.Parse(sessId));
+
+            if (session == null)
+            {
+                throw new HttpResponseException("Token tidak valid.", HttpStatusCode.BadRequest);
+            }
+
             var accessTokenTtl = DateTime.UtcNow.AddSeconds(_Int.ToDouble(_config.Jwt.AccessTokenTtl));
             
             string accessToken = new _JwtGenerator()
                                         .AddSecret(_config.Jwt.Secret)
                                         .AddExpiredIn(accessTokenTtl)
-                                        .AddClaim("sid", sessId!)
+                                        .AddClaim("sid", session.Id)
                                         .AddClaim("typ", "access")
                                         .Generate();
                                 

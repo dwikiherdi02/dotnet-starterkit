@@ -47,4 +47,18 @@ namespace Apps.Data.Entities
         [JsonPropertyName("email")]
         public string Email { get; set; } = string.Empty;
     }
+
+    public class AuthEntityUserContext
+    {
+        public string Id { get; set; } = string.Empty;
+
+        public string Name { get; set; } = string.Empty;
+        
+        public string Username { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+
+        public DateTime? CreatedAt { get; set; }
+
+        public DateTime? UpdatedAt { get; set; }
+    }
 }

@@ -7,6 +7,6 @@ namespace Apps.Services.Interfaces
     {
         Task<User> Login(AuthEntityLoginBody body);
         Task<AuthEntityLoginResponse> GenerateToken(User user);
-        AuthEntityRefreshTokenResponse RefreshToken(string rToken);
+        Task<AuthEntityRefreshTokenResponse> RefreshToken(string rToken);
     }
 }

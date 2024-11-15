@@ -49,5 +49,35 @@ namespace Apps.Repositories
             return session;
         }
 
+        public async Task<Session?> FindSessionById(Ulid id)
+        {
+            var session = await _dbCtx
+                                .Sessions
+                                .Include(i => i.User)
+                                .FirstOrDefaultAsync(q => q.Id == id.ToString());
+            return session;
+        }
+
+        public async Task<bool> DestroySession(Session item)
+        {
+            using var transaction = _dbCtx.Database.BeginTransaction();
+
+            try
+            {
+                await transaction.CreateSavepointAsync("DestroySession");
+
+                _dbCtx.Sessions.Remove(item);
+                await _dbCtx.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackToSavepointAsync("DestroySession");
+                return false;
+            }
+
+            return true;
+        }
     }
 }

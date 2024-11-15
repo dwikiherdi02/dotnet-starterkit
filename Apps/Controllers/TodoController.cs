@@ -1,4 +1,5 @@
 using System.Net;
+using System.Text.Json;
 using Apps.Data.Entities;
 using Apps.Data.Entities.Rules;
 using Apps.Middlewares.Attributes;
@@ -29,6 +30,11 @@ namespace Apps.Controllers
         {   
             TodoEntityQueryRule validator = new TodoEntityQueryRule();
             ValidationResult results = validator.Validate(queryParams);
+
+            var authUser = (AuthEntityUserContext?)HttpContext.Items["auth_user"];
+
+            Console.WriteLine("----------------------------------------------------");
+            Console.WriteLine($"Auth user: {JsonSerializer.Serialize(authUser)}");
 
             if(!results.IsValid) 
             {
